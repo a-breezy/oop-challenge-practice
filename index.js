@@ -1,8 +1,8 @@
 const inquirer = require("inquirer");
-const fs = require('fs')
-const path = require('path')
+const fs = require("fs");
+const path = require("path");
 
-const generateHtml = require('./src/generateHtml.js')
+const generateHtml = require("./src/generateHtml.js");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -89,8 +89,8 @@ const newEmployee = () => {
 				type: "input",
 				name: "name",
 				message: "What is your name?",
-				when: check => check.addEmployee === true,
-				validate: nameInput => {
+				when: (check) => check.addEmployee === true,
+				validate: (nameInput) => {
 					if (nameInput) {
 						return true;
 					} else {
@@ -103,8 +103,8 @@ const newEmployee = () => {
 				type: "input",
 				name: "email",
 				message: "What is your email?",
-				when: check => check.addEmployee === true,
-				validate: emailInput => {
+				when: (check) => check.addEmployee === true,
+				validate: (emailInput) => {
 					if (emailInput) {
 						return true;
 					} else {
@@ -117,15 +117,15 @@ const newEmployee = () => {
 				type: "list",
 				name: "employee",
 				message: "Are you an intern or an engineer?",
-				when: check => check.addEmployee === true,
+				when: (check) => check.addEmployee === true,
 				choices: ["Intern", "Engineer"],
 			},
 			{
 				type: "input",
 				name: "id",
 				message: "What is your ID?",
-				when: check => check.addEmployee === true,
-				validate: idInput => {
+				when: (check) => check.addEmployee === true,
+				validate: (idInput) => {
 					if (idInput) {
 						return true;
 					} else {
@@ -138,8 +138,8 @@ const newEmployee = () => {
 				type: "input",
 				name: "github",
 				message: "What's your GitHub account?",
-				when: check => check.employee === "Engineer",
-				validate: githubInput => {
+				when: (check) => check.employee === "Engineer",
+				validate: (githubInput) => {
 					if (githubInput) {
 						return true;
 					} else {
@@ -152,8 +152,8 @@ const newEmployee = () => {
 				type: "input",
 				name: "school",
 				message: "What's your school?",
-				when: check => check.employee === "Intern",
-				validate: schoolInput => {
+				when: (check) => check.employee === "Intern",
+				validate: (schoolInput) => {
 					if (schoolInput) {
 						return true;
 					} else {
@@ -163,7 +163,7 @@ const newEmployee = () => {
 				},
 			},
 		])
-		.then(answer => {
+		.then((answer) => {
 			if (answer.addEmployee) {
 				if (answer.employee === "Intern") {
 					const intern = new Intern(
@@ -187,19 +187,23 @@ const newEmployee = () => {
 		});
 };
 
-const writeToFile = fileContent => {
-    return new Promise((resolve, reject) => {
-        fs.writeFile('./dist/index.html', fileContent, err => {
-            if (err) {
-                reject(err);
-                return
-            }
-            resolve({
-                ok: true;
-                message: "team profile generated"
-            })
-        })
-    })
-}
+const writeToFile = (fileContent) => {
+	return new Promise((resolve, reject) => {
+		fs.writeFile("./dist/index.html", fileContent, (err) => {
+			if (err) {
+				reject(err);
+				return;
+			}
+			resolve({
+				ok: true,
+				message: "team profile generated",
+			});
+		});
+	});
+};
 
-createManager().then(newEmployee).then(() => writeToFile(generateHtml(team))).then(results => console.log(results)).catch(err => console.log(err))
+createManager()
+	.then(newEmployee)
+	.then(() => writeToFile(generateHtml(team)))
+	.then((results) => console.log(results))
+	.catch((err) => console.log(err));
