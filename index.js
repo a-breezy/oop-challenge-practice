@@ -28,7 +28,7 @@ const createManager = () => {
 				type: "input",
 				name: "email",
 				message: "What is your email?",
-				validate: (emailinput) => {
+				validate: (emailInput) => {
 					if (emailInput) {
 						return true;
 					} else {
